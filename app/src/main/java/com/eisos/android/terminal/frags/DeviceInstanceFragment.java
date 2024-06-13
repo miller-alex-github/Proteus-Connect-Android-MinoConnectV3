@@ -274,8 +274,10 @@ public class DeviceInstanceFragment extends Fragment implements LoaderManager.Lo
         int encoding = sharedPrefs.getInt(Preferences.PREF_ENCODING, 0);
         if (encoding == 0) {
             msgField.setHint(getString(R.string.msgFieldHint) + " (Ascii)");
+            msgField.setText("#ver\r\n");
         } else {
             msgField.setHint(getString(R.string.msgFieldHint) + " (Hex)");
+            msgField.setText("237665720D0A");
         }
         msgField.setOnClickListener(v -> scrollToBottom());
         noEntries = view.findViewById(R.id.tv_no_entries);
@@ -343,45 +345,38 @@ public class DeviceInstanceFragment extends Fragment implements LoaderManager.Lo
     }
 
     public void menuItemClicked(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.deviceMenuItem_config:
-                configDialog = new ConfigDialog();
-                configDialog.setCancelable(false);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(UARTService.EXTRA_DEVICE, mDevice);
-                bundle.putSerializable(ConfigGPIO.EXTRA_CONFIG, configGPIO);
-                configDialog.setArguments(bundle);
-                configDialog.setTargetFragment(this, REQ_CONFIG);
-                configDialog.show(getFragmentManager(), "ConfigDialog");
-                break;
-            case R.id.deviceMenuItem_read_write:
-                readWriteDialog = new ReadWriteDialog();
-                readWriteDialog.setCancelable(false);
-                Bundle bundle2 = new Bundle();
-                bundle2.putSerializable(ConfigGPIO.EXTRA_CONFIG, configGPIO);
-                readWriteDialog.setArguments(bundle2);
-                readWriteDialog.setTargetFragment(this, REQ_READ_WRITE);
-                readWriteDialog.show(getFragmentManager(), "ReadWriteDialog");
-                break;
-            case R.id.deviceMenuItem_read_mtu:
-                getMtu();
-                break;
-            case R.id.deviceMenuItem_req_mtu:
-                ReqMtuDialog mtuDialog = new ReqMtuDialog();
-                mtuDialog.setTargetFragment(this, REQ_MTU);
-                mtuDialog.show(getFragmentManager(), "RequestMtuDialog");
-                break;
-            case R.id.deviceMenuItem_read_rssi:
-                readRssi();
-                break;
-            case R.id.devicemenuItem_set_phy:
-                ReqPhyDialog phyDialog = new ReqPhyDialog();
-                phyDialog.setTargetFragment(this, REQ_PHY);
-                phyDialog.show(getFragmentManager(), "ReqPhyDialog");
-                break;
-            case R.id.deviceMenuItem_read_phy:
-                readPhy();
-                break;
+        int itemId = item.getItemId();
+        if (itemId == R.id.deviceMenuItem_config) {
+            configDialog = new ConfigDialog();
+            configDialog.setCancelable(false);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(UARTService.EXTRA_DEVICE, mDevice);
+            bundle.putSerializable(ConfigGPIO.EXTRA_CONFIG, configGPIO);
+            configDialog.setArguments(bundle);
+            configDialog.setTargetFragment(this, REQ_CONFIG);
+            configDialog.show(getFragmentManager(), "ConfigDialog");
+        } else if (itemId == R.id.deviceMenuItem_read_write) {
+            readWriteDialog = new ReadWriteDialog();
+            readWriteDialog.setCancelable(false);
+            Bundle bundle2 = new Bundle();
+            bundle2.putSerializable(ConfigGPIO.EXTRA_CONFIG, configGPIO);
+            readWriteDialog.setArguments(bundle2);
+            readWriteDialog.setTargetFragment(this, REQ_READ_WRITE);
+            readWriteDialog.show(getFragmentManager(), "ReadWriteDialog");
+        } else if (itemId == R.id.deviceMenuItem_read_mtu) {
+            getMtu();
+        } else if (itemId == R.id.deviceMenuItem_req_mtu) {
+            ReqMtuDialog mtuDialog = new ReqMtuDialog();
+            mtuDialog.setTargetFragment(this, REQ_MTU);
+            mtuDialog.show(getFragmentManager(), "RequestMtuDialog");
+        } else if (itemId == R.id.deviceMenuItem_read_rssi) {
+            readRssi();
+        } else if (itemId == R.id.devicemenuItem_set_phy) {
+            ReqPhyDialog phyDialog = new ReqPhyDialog();
+            phyDialog.setTargetFragment(this, REQ_PHY);
+            phyDialog.show(getFragmentManager(), "ReqPhyDialog");
+        } else if (itemId == R.id.deviceMenuItem_read_phy) {
+            readPhy();
         }
     }
 
@@ -592,7 +587,17 @@ public class DeviceInstanceFragment extends Fragment implements LoaderManager.Lo
         if (controlGlobally) {
             controlAllDevices(text);
         }
-        msgField.setText(null);
+
+        int encoding = sharedPrefs.getInt(Preferences.PREF_ENCODING, 0);
+
+        // MinoConnect version
+        if (encoding == 0) {
+            msgField.setText("#ver\r\n");
+        } else {
+            msgField.setText("237665720D0A");
+        }
+
+        //msgField.setText(null);
         msgField.requestFocus();
     }
 

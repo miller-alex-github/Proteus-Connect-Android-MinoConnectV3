@@ -10,8 +10,7 @@
   ~ Copyright Wuerth Elektronik eiSos 2019
   ~
   -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.eisos.android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
@@ -19,6 +18,12 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- Android 12+ Bluetooth permissions. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" />
+    <uses-feature android:name="android.hardware.bluetooth" android:required="true" />
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -29,8 +34,8 @@
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true">
         <activity android:name=".terminal.SplashActivity"
-            android:theme="@style/SplashScreen"
-            android:screenOrientation="portrait">
+            android:exported="true"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,18 +43,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".terminal.MainActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".terminal.PolicyActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".terminal.profiles.ProfileActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".terminal.ImprintActivity"
-        android:screenOrientation="portrait" />
-        <activity android:name=".terminal.WhatsNewActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".terminal.PolicyActivity" />
+        <activity android:name=".terminal.profiles.ProfileActivity" />
+        <activity android:name=".terminal.ImprintActivity" />
+        <activity android:name=".terminal.WhatsNewActivity" />
         <service android:name=".terminal.bluetooth.services.UARTService">
 
         </service>

@@ -105,44 +105,44 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                switch (menuItem.getItemId()) {
-                    case R.id.item_info:
-                        stopScan();
-                        FragmentTransaction ft = fm.beginTransaction();
-                        ft.hide(activeFrag);
-                        ft.show(infoFragment);
-                        ft.commit();
-                        activeFrag = infoFragment;
+                int itemId = menuItem.getItemId();
+                if (itemId == R.id.item_info) {
+                    stopScan();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.hide(activeFrag);
+                    ft.show(infoFragment);
+                    ft.commit();
+                    activeFrag = infoFragment;
 
-                        toolbarLogo.setVisibility(View.VISIBLE);
-                        toolbarTitle.setVisibility(View.GONE);
-                        toolbar.getMenu().setGroupVisible(R.id.menu_group_one, false);
-                        return true;
-                    case R.id.item_scan:
-                        FragmentTransaction ft2 = fm.beginTransaction();
-                        ft2.hide(activeFrag);
-                        ft2.show(scanFragment);
-                        ft2.commit();
-                        activeFrag = scanFragment;
+                    toolbarLogo.setVisibility(View.VISIBLE);
+                    toolbarTitle.setVisibility(View.GONE);
+                    toolbar.getMenu().setGroupVisible(R.id.menu_group_one, false);
+                    return true;
+                } else if (itemId == R.id.item_scan) {
+                    FragmentTransaction ft2 = fm.beginTransaction();
+                    ft2.hide(activeFrag);
+                    ft2.show(scanFragment);
+                    ft2.commit();
+                    activeFrag = scanFragment;
 
-                        toolbarLogo.setVisibility(View.GONE);
-                        toolbarTitle.setVisibility(View.VISIBLE);
-                        toolbar.getMenu().setGroupVisible(R.id.menu_group_one, false);
-                        return true;
-                    case R.id.item_terminal:
-                        stopScan();
-                        FragmentTransaction ft3 = fm.beginTransaction();
-                        ft3.hide(activeFrag);
-                        ft3.show(terminalFragment);
-                        ft3.commit();
-                        activeFrag = terminalFragment;
+                    toolbarLogo.setVisibility(View.GONE);
+                    toolbarTitle.setVisibility(View.VISIBLE);
+                    toolbar.getMenu().setGroupVisible(R.id.menu_group_one, false);
+                    return true;
+                } else if (itemId == R.id.item_terminal) {
+                    stopScan();
+                    FragmentTransaction ft3 = fm.beginTransaction();
+                    ft3.hide(activeFrag);
+                    ft3.show(terminalFragment);
+                    ft3.commit();
+                    activeFrag = terminalFragment;
 
-                        toolbarTitle.setVisibility(View.GONE);
-                        toolbarLogo.setVisibility(View.VISIBLE);
-                        if (scanFragment.getConnectedListItems().size() > 0) {
-                            toolbar.getMenu().setGroupVisible(R.id.menu_group_one, true);
-                        }
-                        return true;
+                    toolbarTitle.setVisibility(View.GONE);
+                    toolbarLogo.setVisibility(View.VISIBLE);
+                    if (scanFragment.getConnectedListItems().size() > 0) {
+                        toolbar.getMenu().setGroupVisible(R.id.menu_group_one, true);
+                    }
+                    return true;
                 }
                 return false;
             }
@@ -167,22 +167,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_disconnect:
-                ScanListItem listItem = ((ScanListItem) scanFragment.getScannedItems().get(terminalFragment.getTabIndexOfScanListItem()));
-                BluetoothDevice device = listItem.getDevice();
-                terminalFragment.disconnect(device);
-                break;
-            case R.id.menu_profiles:
-                Intent intent = new Intent(MainActivity.getActivity(), ProfileActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.menu_encoding:
-                terminalFragment.showDialog();
-                break;
-            case R.id.menu_sendGlobally:
-                terminalFragment.controlAllDevices();
-                break;
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_disconnect) {
+            ScanListItem listItem = ((ScanListItem) scanFragment.getScannedItems().get(terminalFragment.getTabIndexOfScanListItem()));
+            BluetoothDevice device = listItem.getDevice();
+            terminalFragment.disconnect(device);
+        } else if (itemId == R.id.menu_profiles) {
+            Intent intent = new Intent(MainActivity.getActivity(), ProfileActivity.class);
+            startActivity(intent);
+        } else if (itemId == R.id.menu_encoding) {
+            terminalFragment.showDialog();
+        } else if (itemId == R.id.menu_sendGlobally) {
+            terminalFragment.controlAllDevices();
         }
         return true;
     }

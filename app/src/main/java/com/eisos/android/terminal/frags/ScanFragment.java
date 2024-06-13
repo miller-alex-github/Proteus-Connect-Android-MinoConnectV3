@@ -11,6 +11,7 @@
  */
 package com.eisos.android.terminal.frags;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -64,6 +65,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import no.nordicsemi.android.ble.PhyRequest;
 import no.nordicsemi.android.ble.response.PhyResult;
@@ -127,7 +129,10 @@ public class ScanFragment<E extends BleMulticonnectProfileService.LocalBinder> e
         service = new Intent(getActivity(), UARTService.class);
         getActivity().startService(service);
         bindActivityToService(getActivity());
-        scan();
+        //scan();
+        tvScan.setVisibility(View.INVISIBLE);
+        addBondedDevices();
+
         return view;
     }
 
@@ -317,6 +322,25 @@ public class ScanFragment<E extends BleMulticonnectProfileService.LocalBinder> e
         initScan();
     }
 
+    @SuppressLint("MissingPermission")
+    private void addBondedDevices() {
+        final BluetoothManager bluetoothManager =
+                (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter bAdapter = bluetoothManager.getAdapter();
+
+        Set<BluetoothDevice> bondedDevices = bAdapter.getBondedDevices();
+        if (bondedDevices != null) {
+            for (BluetoothDevice bondedDevice : bondedDevices) {
+                if (bondedDevice.getName().contains("MinoConnectBLE") ||
+                        bondedDevice.getName().startsWith("Mi")) {
+                    ScanListItem listItem = new ScanListItem(getContext(), bondedDevice);
+                    itemAdapter.addListItem(listItem);
+                }
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
     private void addFavouriteDevices() {
         List<FavouriteDevice> devices = mFavModel.getAll();
         final BluetoothManager bluetoothManager =

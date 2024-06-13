@@ -253,6 +253,13 @@ public class UARTManager extends LoggableBleManager {
         }
 
         private void broadcastResponse(BluetoothDevice device, String data) {
+            StringBuilder output = new StringBuilder();
+            for (int i = 0; i < data.length(); i+=2) {
+                String str = data.substring(i, i+2);
+                output.append((char)Integer.parseInt(str, 16));
+            }
+            log(LogContract.Log.Level.APPLICATION, output.toString());
+
             final Intent broadcast = new Intent(UARTService.BROADCAST_UART_RX);
             broadcast.putExtra(UARTService.EXTRA_DEVICE, device);
             broadcast.putExtra(UARTService.EXTRA_DATA, data.substring(2));

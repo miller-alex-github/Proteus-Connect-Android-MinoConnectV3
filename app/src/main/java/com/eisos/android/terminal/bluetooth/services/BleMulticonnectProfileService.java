@@ -211,7 +211,7 @@ public abstract class BleMulticonnectProfileService extends Service implements C
             mLogSessions.put(device, session);
             manager.connect(device)
                     .retry(3, 100)
-                    .useAutoConnect(shouldAutoConnect(device))
+                    .useAutoConnect(true) //shouldAutoConnect(device))
                     .usePreferredPhy(getPreferredPhy(device))
                     .timeout(10000)
                     .fail((d, status) -> {

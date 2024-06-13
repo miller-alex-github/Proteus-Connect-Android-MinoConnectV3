@@ -63,6 +63,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.DeviceHolder> 
         holder.tvRssi.setText(listItem.getRssiText());
         holder.imgRssi.setImageResource(listItem.getImgResourceRssi());
         holder.imgState.setImageResource(listItem.getImgResourceConState());
+        holder.imgFav.setVisibility(View.INVISIBLE);
         holder.imgFav.setOnClickListener((View v) -> {
             if(holder.imgFav.getDrawable().getConstantState().equals(context.getDrawable(R.drawable.ic_star_border).getConstantState())) {
                 holder.imgFav.setImageResource(R.drawable.ic_star);
@@ -72,6 +73,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.DeviceHolder> 
                 scanFragment.deleteDeviceFromFavourites(listItem);
             }
         });
+        holder.imgMenu.setVisibility(View.INVISIBLE);
         holder.imgMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,13 +82,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.DeviceHolder> 
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.menuItem_autoconnect:
-                                scanFragment.onAutoConnectClicked(listItem);
-                                break;
-                            case R.id.menuItem_preferred_phy:
-                                scanFragment.onPreferredPhyClicked(listItem);
-                                break;
+                        int itemId = item.getItemId();
+                        if (itemId == R.id.menuItem_autoconnect) {
+                            scanFragment.onAutoConnectClicked(listItem);
+                        } else if (itemId == R.id.menuItem_preferred_phy) {
+                            scanFragment.onPreferredPhyClicked(listItem);
                         }
                         return true;
                     }

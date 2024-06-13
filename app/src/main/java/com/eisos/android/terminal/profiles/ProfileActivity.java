@@ -97,20 +97,18 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.profile_import:
-                        if(hasImportPermission()) {
-                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                            intent.setType("application/*");
-                            startActivityForResult(intent, REQ_PROFILE_IMPORT);
-                        }
-                        break;
-                    case R.id.profile_export:
-                        if(hasExportPermission()) {
-                            ExportProfileDialog dialog = new ExportProfileDialog(profileAdapter.getProfiles(), profileListFragment);
-                            dialog.show(getSupportFragmentManager(), "ExportProfileDialog");
-                        }
-                        break;
+                int itemId = item.getItemId();
+                if (itemId == R.id.profile_import) {
+                    if (hasImportPermission()) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("application/*");
+                        startActivityForResult(intent, REQ_PROFILE_IMPORT);
+                    }
+                } else if (itemId == R.id.profile_export) {
+                    if (hasExportPermission()) {
+                        ExportProfileDialog dialog = new ExportProfileDialog(profileAdapter.getProfiles(), profileListFragment);
+                        dialog.show(getSupportFragmentManager(), "ExportProfileDialog");
+                    }
                 }
                 return true;
             }
