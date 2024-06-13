@@ -1,64 +1,21 @@
-# Proteus Connect Android (Archive)
-
-July 2023 - Note: This SDK is now in status "archive" and will not be continued or maintained. Please refer to https://github.com/WurthElektronik/Proteus-Connect for the successor, which is a cross plattform project supporting Android and iOS as well as web-app.
-
-The Google Play Store will also switch over to the new project starting with version 1.4 of the app release.
-
-
------------------
-Archived
------------------
-
-
-
-
-
-
-Contact: https://www.we-online.de/web/en/wuerth_elektronik/kontakte_weg/contacts_weg.php
-
-License Terms: https://github.com/WurthElektronik/Proteus-Connect-Android/blob/master/license_terms_Proteus-Connect_sdk.pdf
-
-Google Play Store: https://play.google.com/store/apps/details?id=com.eisos.android.terminal
-
-GitHub Würth Elektronik eiSos: https://github.com/WurthElektronik
+# Demo for the integration of MinoConnect V3
 
 ## General information
 
-This Android™ app is developed to send ASCII or HEX commands to connected boards.
-Additional features and updates will be released as they are developed.
+This app is based on Proteus-Connect-Android from Würth Elektronik eiSos with a few small adjustments to give you an overview of how you can integrate MinoConnect V3 (https://zenner.de/products/sys_minoconnect_radio/).
 
-## Installation
+## Installation and use
 
-It is highly recommended to uninstall an older version of the app or at least clear the storage
-of the app before installing a new version.
+1. Load the code into Android Studio and select the "app" project.
+2. Pair MinoConnect Bluetooth LE (version >= 3.2.1) with the Android phone.
+3. Run the project on your Android phone and accept the license terms.
+4. You will then see the paired MinoConnect device in the main dialog.
+5. Click on the desired MinoConnect to open the terminal dialog.
+6. In the terminal, you can see how the app connects to the MinoConnect.
+7. Now press the "Send" button and ASCII commando #ver is sent to MinoConnect.
+8. This MinoConnect responds with a version string.
+9. Done.
 
-Latest version: <a href="Proteus_Connect_v1.3.apk" download>Proteus_Connect_v1.3.apk</a>
-
-## Known issues
-
-* Under Android 10 there will be no callback when a scanned device is not available anymore.
-
-## UI overview
-
-Scan screen                                           | Terminal screen                                           | Info screen
-:---------------------------------------------------: | :-------------------------------------------------------: | :---------------------------------------------------:
-![Scan screen](screenshots/scanFragment.jpg)  | ![Device screen](screenshots/terminalFragment.jpg)  | ![Info screen](screenshots/infoFragment.jpg)
-
-
-
-
-
- > Android is a trademark of Google LLC.
- 
- 
-## Known issues
-V1.3.0
- - none
-V1.2.0
- - none
-V1.1.0
- - sending ascii payload does not log the very first character, the payload however is send correctly.
-V1.0.0
- - parsing ascii user input does not work properly, use hex input
- - input conding defaults to ascii, should be hex.
-
+Scan screen                                           | Terminal screen                                           
+:---------------------------------------------------: | :-------------------------------------------------------: 
+![Scan screen](screenshots/scanFragment.jpg)  | ![Device screen](screenshots/terminalFragment.jpg)
